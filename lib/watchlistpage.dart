@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movieapi/Database/DatabaseHelper.dart';
 import 'package:movieapi/Models/WatchlistModel.dart';
-import 'package:movieapi/ui/movie.dart';
+
 
 class WatchlistPage extends StatefulWidget {
   const WatchlistPage({Key? key}) : super(key: key);

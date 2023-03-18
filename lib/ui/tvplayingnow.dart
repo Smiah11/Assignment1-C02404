@@ -15,8 +15,9 @@ class TvShowsPlaying extends StatelessWidget {
         children: [
           Text(
             'TV Shows Playing Now',
-            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),          
           ),
+          
           Container(
             height: 270,
             child: ListView.builder(
@@ -34,6 +35,7 @@ class TvShowsPlaying extends StatelessWidget {
                   playingnowtv[index]['poster_path'] !=null? //if the image is not null then show the image
                    Container(
                     width: 140,
+                    padding: EdgeInsets.all(10.0),//spacing between images
                     child: Column(
                       children: [
                         playingnowtv[index]['poster_path'] == null
@@ -44,6 +46,7 @@ class TvShowsPlaying extends StatelessWidget {
                                 ),
                               )
                             : Container(
+                              
                                 height: 200,
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
@@ -52,9 +55,11 @@ class TvShowsPlaying extends StatelessWidget {
                                     ),
                                     fit: BoxFit.cover,
                                   ),
+                                
                                 ),
                               ),
                         Container(
+                          padding: EdgeInsetsDirectional.only(top: 10.0),//spacing for text
                           child: Text(
                             '${playingnowtv[index]['original_name'] != null ? playingnowtv[index]['original_name'] : 'Loading...'}',
                           ),
