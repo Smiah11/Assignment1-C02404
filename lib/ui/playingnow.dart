@@ -18,6 +18,7 @@ final List playingnow;
             'Movies Playing Now',
             style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
           ),
+          
           Container(
             height: 270,
             child: ListView.builder(
@@ -34,6 +35,7 @@ final List playingnow;
                   child: 
                   playingnow[index]['title']/*&'https://image.tmdb.org/t/p/w500/${playingnow[index]['poster_path']}'*/!=null? Container(
                     width: 140,
+                    padding: EdgeInsets.all(10.0),
                     child: Column(
                       children: [
                         playingnow[index]['poster_path'] == null
@@ -55,9 +57,14 @@ final List playingnow;
                                 ),
                               ),
                         Container(
+                          
+                          padding: EdgeInsets.only(top: 2.0),
+                          
                           child: Text(
                             '${playingnow[index]['title'] != null ? playingnow[index]['title'] : 'Loading...'}',
                           ),
+                        
+                        
                         ),
                       ],
                     ),
