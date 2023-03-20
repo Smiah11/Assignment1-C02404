@@ -5,7 +5,8 @@ import 'package:movieapi/Models/WatchlistModel.dart';
 import 'package:movieapi/ui/playingnow.dart';
 import 'package:movieapi/ui/tvplayingnow.dart';
 import 'package:tmdb_api/tmdb_api.dart';
-import 'package:movieapi/watchlistpage.dart';
+import 'package:movieapi/Screens/watchlistpage.dart';
+import 'package:movieapi/Screens/searchscreen.dart';
 
 void main() => runApp(new MyApp());
 
@@ -23,8 +24,6 @@ class MyApp extends StatelessWidget {
       );
   }
 }
-
-
 
 class HomeScreen extends StatefulWidget{
   @override
@@ -74,8 +73,19 @@ loadmovies()async{
     return Scaffold(
       appBar: AppBar(
         title: Text("UCLAN Movie App", style: TextStyle(color: Colors.white),),
-        
-      ),
+          actions: <Widget>[
+    IconButton(
+      icon: Icon(Icons.search),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SearchScreen()),
+      );
+
+      },
+    ),
+  ],
+),
       
       body: ListView(
         children:[

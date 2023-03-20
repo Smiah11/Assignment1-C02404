@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movieapi/description.dart';
-import 'package:movieapi/description.dart';
+import 'package:movieapi/Screens/description.dart';
 
 class TvShowsPlaying extends StatelessWidget {
   final List playingnowtv;
