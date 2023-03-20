@@ -32,4 +32,4 @@ class WatchlistModel {
         description = map['description']!,
         bannerurl = map['bannerurl']!,
         posterurl = map['posterurl']!;
-  }
+}

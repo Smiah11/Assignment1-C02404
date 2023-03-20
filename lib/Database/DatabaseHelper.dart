@@ -4,7 +4,6 @@ import 'package:movieapi/Models/WatchlistModel.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-
 class DatabaseHelper {
   static final _databaseName = "watchlist_database.db";
   static final _databaseVersion = 1;
@@ -53,7 +52,9 @@ class DatabaseHelper {
     return await db.insert(watchlistTable, watchlistModel.toMap());
   }
 
-  Future<int> deleteWatchlistByName(String name,) async {
+  Future<int> deleteWatchlistByName(
+    String name,
+  ) async {
     Database db = await instance.database;
     return await db.delete(
       watchlistTable,
@@ -75,14 +76,16 @@ class DatabaseHelper {
       );
     });
   }
-Future<int> deleteWatchlist(int id) async {
+
+  Future<int> deleteWatchlist(int id) async {
     Database db = await instance.database;
     return await db.delete(
       watchlistTable,
       where: '$columnId = ?',
       whereArgs: [id],
     );
-}
+  }
+
   Future<bool> isMovieInWatchlist(String name) async {
     Database db = await instance.database;
     List<Map<String, dynamic>> maps = await db.query(
@@ -93,4 +96,3 @@ Future<int> deleteWatchlist(int id) async {
     return maps.isNotEmpty;
   }
 }
-

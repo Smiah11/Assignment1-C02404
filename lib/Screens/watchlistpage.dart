@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:movieapi/Database/DatabaseHelper.dart';
 import 'package:movieapi/Models/WatchlistModel.dart';
 
-
 class WatchlistPage extends StatefulWidget {
   const WatchlistPage({Key? key}) : super(key: key);
 
@@ -30,35 +29,34 @@ class _WatchlistPageState extends State<WatchlistPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Watchlist'),
-      ),
-      body: ListView.builder(
-  itemCount: _watchlistItems.length,
-  itemBuilder: (BuildContext context, int index) {
-    WatchlistModel item = _watchlistItems[index];
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: ListTile(
-        leading: Image.network(
-          item.posterurl,
-          height: 200,
-          fit: BoxFit.cover,
+        appBar: AppBar(
+          title: Text('Watchlist'),
         ),
-        title: Text(item.name),
-      
-        //subtitle: Text(item.description),
-        trailing: IconButton(
-          icon: Icon(Icons.delete),
-          onPressed: () async {
-            await DatabaseHelper.instance.deleteWatchlist(item.id!);
-            _getWatchlistItems();
+        body: ListView.builder(
+          itemCount: _watchlistItems.length,
+          itemBuilder: (BuildContext context, int index) {
+            WatchlistModel item = _watchlistItems[index];
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: ListTile(
+                leading: Image.network(
+                  item.posterurl,
+                  height: 200,
+                  fit: BoxFit.cover,
+                ),
+                title: Text(item.name),
+
+                //subtitle: Text(item.description),
+                trailing: IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () async {
+                    await DatabaseHelper.instance.deleteWatchlist(item.id!);
+                    _getWatchlistItems();
+                  },
+                ),
+              ),
+            );
           },
-        ),
-      ),
-    );
-  },
-)
-    );
+        ));
   }
-}   
+}

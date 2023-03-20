@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:movieapi/Database/DatabaseHelper.dart';
-import 'package:movieapi/Models/WatchlistModel.dart';
 import 'package:movieapi/ui/playingnow.dart';
 import 'package:movieapi/ui/tvplayingnow.dart';
 import 'package:tmdb_api/tmdb_api.dart';
@@ -62,19 +60,21 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-List _getSortedList(List list) {
+  List _getSortedList(List list) {
     if (_sortBy == 'name') {
       list.sort((a, b) => (a['title'] ?? '').compareTo(b['title'] ?? ''));
-      list.sort((a, b) => (a['original_name'] ?? '').compareTo(b['title'] ?? ''));
+      list.sort(
+          (a, b) => (a['original_name'] ?? '').compareTo(b['original_name'] ?? ''));
     } else if (_sortBy == 'name_desc') {
       list.sort((a, b) => (b['title'] ?? '').compareTo(a['title'] ?? ''));
-      list.sort((a, b) => (b['original_name'] ?? '').compareTo(a['title'] ?? ''));
-    }
-    else if (_sortBy == 'popularity_desc') {
-      list.sort((a, b) => (b['popularity'] ?? '').compareTo(a['popularity'] ?? ''));
+      list.sort(
+          (a, b) => (b['original_name'] ?? '').compareTo(a['original_name'] ?? ''));
+    } else if (_sortBy == 'popularity_desc') {
+      list.sort(
+          (a, b) => (b['popularity'] ?? '').compareTo(a['popularity'] ?? ''));
     }
     return list;
-}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,9 +109,8 @@ List _getSortedList(List list) {
                 child: Text('Name (Z-A)'),
                 value: 'name_desc',
               ),
-              DropdownMenuItem(child: 
-              Text('Most Popular'), 
-              value: 'popularity_desc'),
+              DropdownMenuItem(
+                  child: Text('Most Popular'), value: 'popularity_desc'),
             ],
             onChanged: (value) {
               setState(() {
