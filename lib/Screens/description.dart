@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:movieapi/Database/DatabaseHelper.dart';
 import 'package:movieapi/Models/WatchlistModel.dart';
 
-
 class Description extends StatefulWidget {
   final String name, description, bannerurl, posterurl;
 
@@ -27,26 +26,26 @@ class _DescriptionState extends State<Description> {
     _checkIfAddedToWatchlist();
   }
 
- void _addToWatchlist() async {
-  WatchlistModel watchlistModel = WatchlistModel(
-    id: null,
-    name: widget.name,
-    description: widget.description,
-    bannerurl: widget.bannerurl,
-    posterurl: widget.posterurl,
-  );
-  int id = await DatabaseHelper.instance.insertWatchlist(watchlistModel);
-  watchlistModel.id = id;
-  setState(() {
-    isAddedToWatchlist = true;
-  });
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text('Added to Watchlist'),
-      duration: Duration(seconds: 1),
-    ),
-  );
-}
+  void _addToWatchlist() async {
+    WatchlistModel watchlistModel = WatchlistModel(
+      id: null,
+      name: widget.name,
+      description: widget.description,
+      bannerurl: widget.bannerurl,
+      posterurl: widget.posterurl,
+    );
+    int id = await DatabaseHelper.instance.insertWatchlist(watchlistModel);
+    watchlistModel.id = id;
+    setState(() {
+      isAddedToWatchlist = true;
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Added to Watchlist'),
+        duration: Duration(seconds: 1),
+      ),
+    );
+  }
 
   void _removeFromWatchlist() async {
     await DatabaseHelper.instance.deleteWatchlistByName(widget.name);
@@ -72,82 +71,83 @@ class _DescriptionState extends State<Description> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: Container(
-        child: ListView(
-          children: [
-            Container(
-              height: 250,
-              child: Stack(
+        backgroundColor: Colors.black,
+        body: Container(
+          child: ListView(
+            children: [
+              Container(
+                height: 250,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      child: Container(
+                        height: 250,
+                        width: MediaQuery.of(context).size.width,
+                        child: Image.network(
+                          widget.bannerurl,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: Text(
+                  widget.name != null ? widget.name : 'Not Loaded',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              Row(
                 children: [
-                  Positioned(
+                  Container(
+                    margin: EdgeInsets.all(5),
+                    height: 150,
+                    width: 100,
+                    child: Image.network(widget.posterurl),
+                  ),
+                  Flexible(
                     child: Container(
-                      height: 250,
-                      width: MediaQuery.of(context).size.width,
-                      child: Image.network(
-                        widget.bannerurl,
-                        fit: BoxFit.cover,
+                      child: Text(
+                        widget.description != null
+                            ? widget.description
+                            : 'Not Loaded',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                        ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              padding: EdgeInsets.all(10),
-              child: Text(
-                widget.name != null ? widget.name : 'Not Loaded',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
+              SizedBox(
+                height: 20,
               ),
-            ),
-            Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.all(5),
-                  height: 150,
-                  width: 100,
-                  child: Image.network(widget.posterurl),
-                ),
-                Flexible(
-                  child: Container(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: isAddedToWatchlist
+                        ? _removeFromWatchlist
+                        : _addToWatchlist,
                     child: Text(
-                      widget.description != null
-                          ? widget.description
-                          : 'Not Loaded',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                      ),
+                      isAddedToWatchlist
+                          ? 'Remove from Watchlist'
+                          : 'Add to Watchlist',
                     ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: isAddedToWatchlist
-                      ? _removeFromWatchlist
-                      : _addToWatchlist,
-                  child: Text(
-                    isAddedToWatchlist ? 'Remove from Watchlist' : 'Add to Watchlist',
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      )
-      );
-      }
+                ],
+              ),
+            ],
+          ),
+        ));
+  }
 }
