@@ -4,34 +4,41 @@ import 'package:movieapi/Models/WatchlistModel.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+
+/*information*\
+  * This class is used to create the database and the table
+  * This class is used to insert, delete and get data from the database
+  * This class is used to check if a movie is in the watchlist
+\*information */
+
 class DatabaseHelper {
   static final _databaseName = "watchlist_database.db";
-  static final _databaseVersion = 1;
+  static final _databaseVersion = 1;//database version
 
-  static final watchlistTable = 'watchlist_table';
-  static final columnId = '_id';
-  static final columnName = 'name';
-  static final columnDescription = 'description';
-  static final columnBannerUrl = 'bannerurl';
-  static final columnPosterUrl = 'posterurl';
+  static final watchlistTable = 'watchlist_table';//table name
+  static final columnId = '_id';//unique id
+  static final columnName = 'name';//movie/tvshow name
+  static final columnDescription = 'description';//movie/tvshow description
+  static final columnBannerUrl = 'bannerurl';//movie/tvshow banner url
+  static final columnPosterUrl = 'posterurl';//movie/tvshow poster url
 
   DatabaseHelper._privateConstructor();
-  static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
+  static final DatabaseHelper instance = DatabaseHelper._privateConstructor();//singleton (uses single database connection)
 
   static Database? _database;
 
-  Future<Database> get database async {
-    if (_database != null) return _database!;
-    _database = await _initDatabase();
+  Future<Database> get database async {  //get database
+    if (_database != null) return _database!;//if database is not null, return database
+    _database = await _initDatabase();//if database is null, create a new database
     return _database!;
   }
 
-  Future<Database> _initDatabase() async {
-    String path = join(await getDatabasesPath(), _databaseName);
+  Future<Database> _initDatabase() async {//create database
+    String path = join(await getDatabasesPath(), _databaseName);//get path to database
     return await openDatabase(
-      path,
-      version: _databaseVersion,
-      onCreate: _onCreate,
+      path,//path to database
+      version: _databaseVersion,//database version
+      onCreate: _onCreate,//create table
     );
   }
 
@@ -47,12 +54,12 @@ class DatabaseHelper {
           ''');
   }
 
-  Future<int> insertWatchlist(WatchlistModel watchlistModel) async {
+  Future<int> insertWatchlist(WatchlistModel watchlistModel) async {//insert data into database
     Database db = await instance.database;
     return await db.insert(watchlistTable, watchlistModel.toMap());
   }
 
-  Future<int> deleteWatchlistByName(
+  Future<int> deleteWatchlistByName(//delete data from database
     String name,
   ) async {
     Database db = await instance.database;
@@ -65,8 +72,8 @@ class DatabaseHelper {
 
   Future<List<WatchlistModel>> getWatchlist() async {
     Database db = await instance.database;
-    List<Map<String, dynamic>> maps = await db.query(watchlistTable);
-    return List.generate(maps.length, (i) {
+    List<Map<String, dynamic>> maps = await db.query(watchlistTable);//get all data from database
+    return List.generate(maps.length, (i) {//return list of watchlistmodel
       return WatchlistModel(
         id: maps[i][columnId],
         name: maps[i][columnName],
@@ -77,22 +84,22 @@ class DatabaseHelper {
     });
   }
 
-  Future<int> deleteWatchlist(int id) async {
+  Future<int> deleteWatchlist(int id) async {//delete data from database
     Database db = await instance.database;
     return await db.delete(
       watchlistTable,
-      where: '$columnId = ?',
+      where: '$columnId = ?',//delete by id
       whereArgs: [id],
     );
   }
 
-  Future<bool> isMovieInWatchlist(String name) async {
+  Future<bool> isMovieInWatchlist(String name) async {//bool to check if movie is in watchlist
     Database db = await instance.database;
     List<Map<String, dynamic>> maps = await db.query(
       watchlistTable,
-      where: '$columnName = ?',
+      where: '$columnName = ?',//check by name
       whereArgs: [name],
     );
-    return maps.isNotEmpty;
+    return maps.isNotEmpty;//return true if movie is in watchlist
   }
 }

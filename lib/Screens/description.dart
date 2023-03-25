@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:movieapi/Database/DatabaseHelper.dart';
 import 'package:movieapi/Models/WatchlistModel.dart';
 
+/*
+  This is the description page of the movie/tvshow.
+  This page shows the name, description, banner and poster of the movie/tvshow.
+  This page also has a button to add the movie/tvshow to the watchlist.
+*/
+
 class Description extends StatefulWidget {
   final String name, description, bannerurl, posterurl;
 
@@ -18,7 +24,7 @@ class Description extends StatefulWidget {
 }
 
 class _DescriptionState extends State<Description> {
-  bool isAddedToWatchlist = false;
+  bool isAddedToWatchlist = false;//check if movie/tvshow is in watchlist
 
   @override
   void initState() {
@@ -26,7 +32,7 @@ class _DescriptionState extends State<Description> {
     _checkIfAddedToWatchlist();
   }
 
-  void _addToWatchlist() async {
+  void _addToWatchlist() async {//add movie/tvshow to watchlist
     WatchlistModel watchlistModel = WatchlistModel(
       id: null,
       name: widget.name,
@@ -34,11 +40,12 @@ class _DescriptionState extends State<Description> {
       bannerurl: widget.bannerurl,
       posterurl: widget.posterurl,
     );
-    int id = await DatabaseHelper.instance.insertWatchlist(watchlistModel);
+    int id = await DatabaseHelper.instance.insertWatchlist(watchlistModel);//insert data into database
     watchlistModel.id = id;
     setState(() {
       isAddedToWatchlist = true;
     });
+    //pop up message to show that movie/tvshow is added to watchlist
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Added to Watchlist'),
@@ -47,11 +54,12 @@ class _DescriptionState extends State<Description> {
     );
   }
 
-  void _removeFromWatchlist() async {
-    await DatabaseHelper.instance.deleteWatchlistByName(widget.name);
+  void _removeFromWatchlist() async {//remove movie/tvshow from watchlist
+    await DatabaseHelper.instance.deleteWatchlistByName(widget.name);//delete data from database
     setState(() {
       isAddedToWatchlist = false;
     });
+    //pop up message to show that movie/tvshow is removed from watchlist
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Removed from Watchlist'),
@@ -60,16 +68,16 @@ class _DescriptionState extends State<Description> {
     );
   }
 
-  void _checkIfAddedToWatchlist() async {
+  void _checkIfAddedToWatchlist() async {//check if movie/tvshow is in watchlist
     bool isAdded =
         await DatabaseHelper.instance.isMovieInWatchlist(widget.name);
     setState(() {
-      isAddedToWatchlist = isAdded;
+      isAddedToWatchlist = isAdded;//set state to true if movie/tvshow is in watchlist
     });
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {//build description page
     return Scaffold(
         backgroundColor: Colors.black,
         body: Container(
@@ -113,7 +121,7 @@ class _DescriptionState extends State<Description> {
                     width: 100,
                     child: Image.network(widget.posterurl),
                   ),
-                  Flexible(
+                  Flexible(//description text
                     child: Container(
                       child: Text(
                         widget.description != null
@@ -134,7 +142,7 @@ class _DescriptionState extends State<Description> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ElevatedButton(
+                  ElevatedButton(//add to watchlist button
                     onPressed: isAddedToWatchlist
                         ? _removeFromWatchlist
                         : _addToWatchlist,

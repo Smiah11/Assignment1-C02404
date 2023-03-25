@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:movieapi/Screens/description.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
+
+/*
+  This is the search page.
+  This page has a search bar to search for movies or tv shows.
+  This page also has a listview to show the search results.
+*/
 class SearchScreen extends StatefulWidget {
   @override
   _SearchScreenState createState() => _SearchScreenState();
@@ -12,9 +18,9 @@ class _SearchScreenState extends State<SearchScreen> {
   List<dynamic> _searchResults = [];
   bool _isSearching = false;
 
-  TextEditingController _searchController = TextEditingController();
+  TextEditingController _searchController = TextEditingController();//search bar
 
-  void _performSearch(String searchTerm) async {
+  void _performSearch(String searchTerm) async {//search for movies or tv shows
     if (searchTerm.isEmpty) {
       setState(() {
         _searchTerm = '';
@@ -40,14 +46,14 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {//build the search page
     return Scaffold(
         appBar: AppBar(
           title: TextField(
             controller: _searchController,
             autofocus: true,
             decoration: InputDecoration(
-              hintText: 'Search for movies or TV shows',
+              hintText: 'Search for movies or TV shows...',
               suffixIcon: IconButton(
                 icon: Icon(Icons.search),
                 onPressed: () {
@@ -62,11 +68,11 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
         body: _isSearching
             ? Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(),//show loading icon while searching
               )
-            : _searchResults.isEmpty
+            : _searchResults.isEmpty//show search results
                 ? Center(
-                    child: Text('No results found'),
+                    child: Text('No results found'),//show no results found if no results are found
                   )
                 : ListView.builder(
                     itemCount: _searchResults.length,
@@ -95,7 +101,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
                       return InkWell(
                         onTap: () {
-                          Navigator.push(
+                          Navigator.push(//navigate to description page
                             context,
                             MaterialPageRoute(
                               builder: (context) => Description(

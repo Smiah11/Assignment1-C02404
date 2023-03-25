@@ -60,6 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+
+/*function to sort the movies and tv shows*/
   List _getSortedList(List list) {
     if (_sortBy == 'name') {
       list.sort((a, b) => (a['title'] ?? '').compareTo(b['title'] ?? ''));
@@ -151,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 margin: EdgeInsets.symmetric(horizontal: 16),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.red,
+                    primary: Colors.red,// background
                   ),
                   onPressed: () {
                     // This will exit the app

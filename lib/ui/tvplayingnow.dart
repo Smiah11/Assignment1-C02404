@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:movieapi/Screens/description.dart';
 
+/*
+  This is the playing now UI.
+  This UI shows the movies playing now.
+*/
+
 class TvShowsPlaying extends StatelessWidget {
-  final List playingnowtv;
+  final List playingnowtv;//list of movies playing now
 
   const TvShowsPlaying({Key? key, required this.playingnowtv})
       : super(key: key);
@@ -24,11 +29,11 @@ class TvShowsPlaying extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 return InkWell(
-                  onTap: () {
+                  onTap: () {//navigate to description page
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => Description(
+                            builder: (context) => Description(//pass data to description page
                                   name: playingnowtv[index]['original_name'],
                                   bannerurl:
                                       'https://image.tmdb.org/t/p/w500/' +
@@ -39,7 +44,7 @@ class TvShowsPlaying extends StatelessWidget {
                                   description: playingnowtv[index]['overview'],
                                 )));
                   },
-                  child: playingnowtv[index]['poster_path'] != null
+                  child: playingnowtv[index]['poster_path'] != null//check if image is loaded
                       ? //if the image is not null then show the image
                       Container(
                           width: 140,
@@ -51,7 +56,7 @@ class TvShowsPlaying extends StatelessWidget {
                                   ? Container(
                                       height: 200,
                                       child: Center(
-                                        child: CircularProgressIndicator(),
+                                        child: CircularProgressIndicator(),//show progress indicator if image is not loaded
                                       ),
                                     )
                                   : Container(

@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:movieapi/Database/DatabaseHelper.dart';
 import 'package:movieapi/Models/WatchlistModel.dart';
 
+/*
+  This is the watchlist page.
+  This page shows the list of movies/tvshows added to the watchlist.
+  This page also has a button to remove the movie/tvshow from the watchlist.
+*/
+
 class WatchlistPage extends StatefulWidget {
   const WatchlistPage({Key? key}) : super(key: key);
 
@@ -18,16 +24,16 @@ class _WatchlistPageState extends State<WatchlistPage> {
     _getWatchlistItems();
   }
 
-  void _getWatchlistItems() async {
+  void _getWatchlistItems() async {//get list of movies/tvshows from watchlist
     List<WatchlistModel> watchlistItems =
-        await DatabaseHelper.instance.getWatchlist();
+        await DatabaseHelper.instance.getWatchlist();//get data from database
     setState(() {
-      _watchlistItems = watchlistItems;
+      _watchlistItems = watchlistItems;//set data to list
     });
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {//build watchlist page
     return Scaffold(
         appBar: AppBar(
           title: Text('Watchlist'),
@@ -50,7 +56,7 @@ class _WatchlistPageState extends State<WatchlistPage> {
                 trailing: IconButton(
                   icon: Icon(Icons.delete),
                   onPressed: () async {
-                    await DatabaseHelper.instance.deleteWatchlist(item.id!);
+                    await DatabaseHelper.instance.deleteWatchlist(item.id!);//delete data from database
                     _getWatchlistItems();
                   },
                 ),

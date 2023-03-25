@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:movieapi/Screens/description.dart';
 
+/*
+  This is the playing now UI.
+  This UI shows the movies playing now.
+*/
 class MoviesPlaying extends StatelessWidget {
-  final List playingnow;
+  final List playingnow;//list of movies playing now
   const MoviesPlaying({super.key, required this.playingnow});
 
   @override
@@ -19,14 +23,14 @@ class MoviesPlaying extends StatelessWidget {
             height: 270,
             child: ListView.builder(
               itemCount: playingnow.length,
-              scrollDirection: Axis.horizontal,
+              scrollDirection: Axis.horizontal,//horizontal listview
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
-                    Navigator.push(
+                    Navigator.push(//navigate to description page
                         context,
                         MaterialPageRoute(
-                            builder: (context) => Description(
+                            builder: (context) => Description(//pass data to description page
                                   name: playingnow[index]['title'],
                                   bannerurl:
                                       'https://image.tmdb.org/t/p/w500/' +
@@ -45,11 +49,11 @@ class MoviesPlaying extends StatelessWidget {
                           padding: EdgeInsets.all(10.0),
                           child: Column(
                             children: [
-                              playingnow[index]['poster_path'] == null
+                              playingnow[index]['poster_path'] == null//check if image is loaded
                                   ? Container(
                                       height: 200,
                                       child: Center(
-                                        child: CircularProgressIndicator(),
+                                        child: CircularProgressIndicator(),//show progress indicator if image is not loaded
                                       ),
                                     )
                                   : Container(
